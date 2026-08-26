@@ -1,0 +1,45 @@
+# OneClick systemd service - the production-grade alternative to start.sh.
+#
+# Unlike start.sh's bash retry loop, systemd:
+#   - Survives terminal/SSH session closing (this was likely your original
+#     "streamlit closes by itself" cause if you were running it with `&` in
+#     an SSH session that then disconnected).
+#   - Restarts automatically on crash, system reboot, etc.
+#   - Gives you `journalctl` for proper log viewing/searching.
+#
+# INSTALL:
+#   1. Edit the paths below (User, WorkingDirectory, ExecStart) to match
+#      your actual install location and username.
+#   2. sudo cp oneclick.service /etc/systemd/system/
+#   3. sudo systemctl daemon-reload
+#   4. sudo systemctl enable --now oneclick
+#
+# USEFUL COMMANDS:
+#   sudo systemctl status oneclick       # is it running?
+#   sudo journalctl -u oneclick -f       # live logs
+#   sudo journalctl -u oneclick -n 100   # last 100 log lines (great for "why did it crash")
+#   sudo systemctl restart oneclick
+#   sudo systemctl stop oneclick
+
+[Unit]
+Description=OneClick APK/Phishing/OTP Analyzer (Streamlit dashboard)
+After=network.target
+# Don't restart-loop forever if it's a genuine startup failure (config error, etc.)
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=kali
+WorkingDirectory=/home/kali/OneClick
+ExecStartPre=/usr/bin/python3 /home/kali/OneClick/doctor.py
+ExecStart=/usr/bin/python3 -m streamlit run app.py --server.port 8501 --server.headless true
+Restart=on-failure
+RestartSec=3
+
+# Basic hardening (adjust/remove if it causes issues with your specific setup,
+# e.g. ProtectHome=true will block access to files outside WorkingDirectory).
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

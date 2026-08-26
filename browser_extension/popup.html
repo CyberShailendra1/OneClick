@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OneClick Phishing Guard</title>
+  <style>
+    body {
+      width: 340px; font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+      background: #0B1220; color: #E5EAF2; margin: 0; padding: 16px;
+    }
+    h1 { font-size: 14px; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px; }
+    .url-box {
+      background: #16213E; border-radius: 8px; padding: 8px 10px; font-size: 11px;
+      word-break: break-all; margin-bottom: 12px; color: #9FB3C8;
+    }
+    #settings { margin-bottom: 10px; }
+    #settings input {
+      width: 100%; box-sizing: border-box; padding: 6px 8px; border-radius: 6px;
+      border: 1px solid #2A3A5C; background: #0F172A; color: #E5EAF2; font-size: 12px;
+    }
+    #settings label { font-size: 11px; color: #8C9BB5; display: block; margin-bottom: 4px; }
+    button {
+      width: 100%; padding: 9px; border-radius: 8px; border: none; background: #0EA5E9;
+      color: white; font-weight: 600; font-size: 13px; cursor: pointer;
+    }
+    button:hover { background: #0284c7; }
+    #result { margin-top: 12px; font-size: 12.5px; line-height: 1.5; }
+    .verdict { padding: 8px 10px; border-radius: 8px; font-weight: 700; margin-bottom: 8px; }
+    .safe { background: #14351F; color: #22C55E; }
+    .suspicious { background: #3A2410; color: #F59E0B; }
+    .malicious { background: #3A1414; color: #EF4444; }
+    ul { margin: 6px 0 0 0; padding-left: 18px; color: #B9C4D4; }
+    .footer-note { margin-top: 12px; font-size: 10.5px; color: #6B7F99; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>🛡️ OneClick Phishing Guard</h1>
+  <div class="url-box" id="currentUrl">Loading current tab URL...</div>
+
+  <div id="settings">
+    <label for="apiBase">OneClick API base URL</label>
+    <input id="apiBase" placeholder="http://localhost:8000" value="http://localhost:8000">
+  </div>
+
+  <button id="scanBtn">🔍 Check this page</button>
+  <div id="result"></div>
+
+  <div class="footer-note">Flag-only — never blocks or modifies pages automatically.</div>
+  <script src="popup.js"></script>
+</body>
+</html>

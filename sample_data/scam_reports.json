@@ -1,0 +1,21 @@
+{
+  "phone_numbers": {
+    "9000000001": {
+      "category": "Fake Customer Care",
+      "report_count": 3,
+      "note": "Example entry: reported impersonating a bank helpline. Replace with real reported numbers - this is a starter/demo dataset."
+    },
+    "9000000002": {
+      "category": "Digital Arrest Scam",
+      "report_count": 5,
+      "note": "Example entry: reported making fake 'cyber crime cell' video calls. Replace with real reported numbers - this is a starter/demo dataset."
+    }
+  },
+  "upi_ids": {
+    "fraud@upi": {
+      "category": "Fake Store / Non-Delivery",
+      "report_count": 4,
+      "note": "Example entry for demonstration purposes only - this is a starter/demo dataset, not a real reported VPA."
+    }
+  }
+}
