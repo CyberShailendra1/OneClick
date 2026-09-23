@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { HomePage } from './components/HomePage';
 import { CitizenShield } from './components/CitizenShield';
 import { SingleScan } from './components/SingleScan';
 import { BatchScan } from './components/BatchScan';
@@ -10,7 +11,7 @@ import { ScamLookup } from './components/ScamLookup';
 import { SecurityTools } from './components/SecurityTools';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('shield');
+  const [activeTab, setActiveTab] = useState<string>('home');
   const [vtApiKey, setVtApiKey] = useState<string>(() => {
     return localStorage.getItem('oneclick_vt_key') || '';
   });
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
       />
 
       <main style={{ flex: 1, maxWidth: '1400px', width: '100%', margin: '0 auto', padding: '28px 24px' }}>
+        {activeTab === 'home' && <HomePage onNavigate={setActiveTab} />}
         {activeTab === 'shield' && <CitizenShield vtApiKey={vtApiKey} onNavigateToTab={setActiveTab} />}
         {activeTab === 'single' && <SingleScan vtApiKey={vtApiKey} />}
         {activeTab === 'batch' && <BatchScan vtApiKey={vtApiKey} />}
@@ -34,6 +36,7 @@ export const App: React.FC = () => {
         {activeTab === 'scam' && <ScamLookup />}
         {activeTab === 'tools' && <SecurityTools vtApiKey={vtApiKey} />}
       </main>
+
 
       <footer style={{ borderTop: '1px solid var(--border)', padding: '20px 24px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px', background: 'var(--bg-card)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>

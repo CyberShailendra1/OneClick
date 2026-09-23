@@ -40,6 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const tabs = [
+    { id: 'home', label: 'Home', icon: '🏠' },
     { id: 'shield', label: 'Smart Shield', icon: '🛡️' },
     { id: 'single', label: 'APK Scanner', icon: '🔍' },
     { id: 'batch', label: 'Batch Scan', icon: '📦' },
@@ -55,7 +56,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px' }}>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveTab('shield')}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveTab('home')}>
+
 
             <div style={{
               width: '40px', height: '40px', borderRadius: '10px',
