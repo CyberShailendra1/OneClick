@@ -57,7 +57,31 @@ def init_db():
                 user_action TEXT DEFAULT 'none'   -- 'none' | 'dismissed' | 'deleted_by_user'
             )
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                phone TEXT UNIQUE NOT NULL,
+                name TEXT,
+                created_at TEXT NOT NULL,
+                last_login TEXT
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS user_otps (
+                phone TEXT PRIMARY KEY,
+                otp_code TEXT NOT NULL,
+                expires_at REAL NOT NULL
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS user_sessions (
+                token TEXT PRIMARY KEY,
+                phone TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_sha256 ON scan_history(sha256)")
+
         conn.execute("CREATE INDEX IF NOT EXISTS idx_url ON url_scan_history(url)")
 
 
@@ -181,3 +205,79 @@ def clear_url_history():
     init_db()
     with get_conn() as conn:
         conn.execute("DELETE FROM url_scan_history")
+
+
+# ---------------------------------------------------------------------------
+# User Authentication & Sessions (Optional Login)
+# ---------------------------------------------------------------------------
+
+def save_otp(phone: str, otp_code: str, ttl_seconds: int = 300):
+    init_db()
+    import time
+    expires_at = time.time() + ttl_seconds
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO user_otps (phone, otp_code, expires_at)
+               VALUES (?, ?, ?)
+               ON CONFLICT(phone) DO UPDATE SET otp_code=excluded.otp_code, expires_at=excluded.expires_at""",
+            (phone, otp_code, expires_at)
+        )
+
+
+def verify_otp_and_login(phone: str, otp_code: str) -> dict | None:
+    init_db()
+    import time
+    import uuid
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT otp_code, expires_at FROM user_otps WHERE phone = ?", (phone,)
+        ).fetchone()
+        if not row:
+            return None
+        if time.time() > row["expires_at"]:
+            return None
+        if row["otp_code"] != otp_code:
+            return None
+
+        # Clean OTP
+        conn.execute("DELETE FROM user_otps WHERE phone = ?", (phone,))
+
+        # Upsert user
+        now_str = datetime.now(timezone.utc).isoformat()
+        conn.execute(
+            """INSERT INTO users (phone, name, created_at, last_login)
+               VALUES (?, ?, ?, ?)
+               ON CONFLICT(phone) DO UPDATE SET last_login=excluded.last_login""",
+            (phone, f"Citizen User", now_str, now_str)
+        )
+
+        # Create session token
+        token = str(uuid.uuid4())
+        conn.execute(
+            "INSERT INTO user_sessions (token, phone, created_at) VALUES (?, ?, ?)",
+            (token, phone, now_str)
+        )
+        return {"token": token, "phone": phone}
+
+
+def get_user_from_token(token: str) -> dict | None:
+    init_db()
+    with get_conn() as conn:
+        session = conn.execute(
+            "SELECT phone, created_at FROM user_sessions WHERE token = ?", (token,)
+        ).fetchone()
+        if not session:
+            return None
+        user = conn.execute(
+            "SELECT * FROM users WHERE phone = ?", (session["phone"],)
+        ).fetchone()
+        if user:
+            return dict(user)
+        return {"phone": session["phone"]}
+
+
+def delete_session(token: str):
+    init_db()
+    with get_conn() as conn:
+        conn.execute("DELETE FROM user_sessions WHERE token = ?", (token,))
+

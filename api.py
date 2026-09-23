@@ -271,6 +271,62 @@ def redact_message_endpoint(req: RedactRequest):
 
 
 # ---------------------------------------------------------------------------
+# Optional User Authentication & Dashboard (OTP Login)
+# ---------------------------------------------------------------------------
+
+class SendOtpRequest(BaseModel):
+    phone: str
+
+class VerifyOtpRequest(BaseModel):
+    phone: str
+    otp: str
+
+@app.post("/auth/send-otp")
+def send_otp_endpoint(req: SendOtpRequest):
+    clean_phone = re.sub(r"[^0-9]", "", req.phone)
+    if len(clean_phone) < 10:
+        raise HTTPException(status_code=400, detail="Invalid phone number format")
+
+    import random
+    # Generate 6-digit OTP
+    otp_code = str(random.randint(100000, 999999))
+    database.save_otp(clean_phone, otp_code, ttl_seconds=300)
+
+    # In local/open demo environment, print to console and return in response for seamless zero-SMS-cost testing
+    print(f"\n[ONECLICK AUTH] Generated OTP for {clean_phone}: {otp_code}\n")
+    return {
+        "status": "success",
+        "message": f"OTP sent to +91 {clean_phone[-10:]}",
+        "demo_otp": otp_code,  # Provided for easy local testing without external paid SMS gateway
+    }
+
+@app.post("/auth/verify-otp")
+def verify_otp_endpoint(req: VerifyOtpRequest):
+    clean_phone = re.sub(r"[^0-9]", "", req.phone)
+    login_result = database.verify_otp_and_login(clean_phone, req.otp.strip())
+    if not login_result:
+        raise HTTPException(status_code=401, detail="Invalid or expired OTP code")
+    return {
+        "status": "success",
+        "token": login_result["token"],
+        "phone": login_result["phone"],
+    }
+
+@app.get("/auth/me")
+def get_current_user_endpoint(token: str = Query(...)):
+    user = database.get_user_from_token(token)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid or expired session")
+    return {"status": "authenticated", "user": user}
+
+@app.post("/auth/logout")
+def logout_endpoint(token: str = Query(...)):
+    database.delete_session(token)
+    return {"status": "logged_out"}
+
+
+
+# ---------------------------------------------------------------------------
 # Scam Lookup & Password Breach Checker
 # ---------------------------------------------------------------------------
 
@@ -534,6 +590,60 @@ def smart_analyze_endpoint(req: SmartAnalyzeRequest):
         ],
         "details": {"raw_text": raw_query},
     }
+
+
+# ---------------------------------------------------------------------------
+# Optional User Authentication & Dashboard Endpoints (OTP based)
+# ---------------------------------------------------------------------------
+
+class SendOtpRequest(BaseModel):
+    phone: str
+
+class VerifyOtpRequest(BaseModel):
+    phone: str
+    otp: str
+
+@app.post("/auth/send-otp")
+def send_otp_endpoint(req: SendOtpRequest):
+    import random
+    clean_phone = re.sub(r"[^0-9]", "", req.phone)
+    if len(clean_phone) < 10:
+        raise HTTPException(status_code=400, detail="Invalid mobile number. Please provide a 10-digit number.")
+    
+    # 6-digit OTP code
+    otp_code = str(random.randint(100000, 999999))
+    database.save_otp(clean_phone, otp_code, ttl_seconds=300)
+    print(f"\n[ONECLICK AUTH] Generated OTP for +91-{clean_phone}: {otp_code}\n")
+    
+    return {
+        "status": "success",
+        "message": f"Verification OTP sent to +91 {clean_phone}.",
+        "demo_otp": otp_code
+    }
+
+@app.post("/auth/verify-otp")
+def verify_otp_endpoint(req: VerifyOtpRequest):
+    clean_phone = re.sub(r"[^0-9]", "", req.phone)
+    res = database.verify_otp_and_login(clean_phone, req.otp.strip())
+    if not res:
+        raise HTTPException(status_code=400, detail="Invalid or expired OTP code.")
+    return {
+        "status": "success",
+        "token": res["token"],
+        "phone": res["phone"]
+    }
+
+@app.get("/auth/me")
+def get_current_user_endpoint(token: str = Query(...)):
+    user = database.get_user_from_token(token)
+    if not user:
+        raise HTTPException(status_code=401, detail="Session expired or invalid")
+    return {"status": "success", "user": user}
+
+@app.post("/auth/logout")
+def logout_endpoint(token: str = Query(...)):
+    database.delete_session(token)
+    return {"status": "success"}
 
 
 # ---------------------------------------------------------------------------
