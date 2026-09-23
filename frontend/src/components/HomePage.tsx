@@ -31,15 +31,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     {
       id: 'shield',
       icon: <Shield size={32} color="var(--teal)" />,
-      badge: 'Citizen Protection • No Tech Jargon',
-      title: 'Smart Shield (Universal Scam & Fraud Detector)',
+      badge: 'Citizen Defense • Zero Technical Barrier',
+      title: 'Smart Shield (Universal AI Scam Detector)',
       objective:
-        'Aam naagrik, pariwar ke bade-buzurg, aur WhatsApp/UPI users ko modern cyber thagon (Digital Arrest, Bijli Bill cut, Fake Courier, Work-From-Home Task scams) se bachana. Aam insaan ko kisi complicated security tool ki training ki zaroorat nahi honi chahiye — bas ek box me paste karein aur turant sach samne aa jaye.',
+        'To protect everyday citizens, families, and digital payment users against contemporary social engineering attacks (such as "Digital Arrest" impersonation, electric utility disconnection threats, fake courier customs holds, and deceptive task jobs). The system eliminates security jargon and provides a single, intuitive input where any query is evaluated instantly.',
       howItWorks:
-        'Jaise hi user koi input deta hai, hamara AI Engine pehle pehchanta hai ki yeh Phone number hai, UPI ID hai, Web Link hai ya poora Message. Iske baad yeh Indian cybercrime patterns, reported scammer numbers, fake bank handles, aur malicious domains ki live intelligence se cross-check karta hai. Saath hi message me agar koi confidential OTP ya PIN ho toh use turant mask (chhupa) deta hai taaki user ka data leak na ho.',
+        'When input is provided, the engine automatically identifies whether it is an Indian phone number, a UPI ID, a web URL, or an unstructured message. It cross-examines the input against cyber threat patterns, reported fraud repositories, known deceptive handles, and real-time phishing heuristics. In parallel, it automatically detects and redacts sensitive OTPs and authentication tokens to prevent accidental data leaks.',
       verdictOutcome:
-        '🟢 SURAKSHIT (SAFE) / 🟡 SAVDHAAN (CAUTION) / 🔴 KHATRA (DANGER) ka seedha traffic-light verdict, aur agla kadam jaise National Cyber Helpline 1930 par call karne ka direct button.',
-      whoUses: 'Har aam citizen jise WhatsApp, SMS ya call par koi anjaan offer ya dhar-pakad ki dhamki aayi ho.',
+        '🟢 SAFE / 🟡 CAUTION / 🔴 DANGER traffic-light verdict, accompanied by actionable recommendations and immediate access to the National Cybercrime Helpline (1930).',
+      whoUses: 'General public, smartphone users, and recipients of unverified WhatsApp or SMS payment solicitations.',
       color: 'var(--teal)',
       bg: 'rgba(20, 184, 166, 0.08)',
       border: 'rgba(20, 184, 166, 0.3)',
@@ -50,12 +50,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       badge: '3-Layer Deep Static Engine',
       title: 'Android APK Malware & Spyware Scanner',
       objective:
-        'Fake banking apps aur spyware APKs (jaise WhatsApp par bheje gaye fake SBI YONO, PM Awas Yojana, Marriage Invitation Card APKs) se phone ko bachana. Phone par install hone se pehle hi pata chal jaye ki yeh app asli hai ya aapka data aur SMS churane wala malware.',
+        'To identify trojanized and malicious Android application packages (such as cloned banking apps, fake government relief schemes, and spyware masquerading as digital invitations) prior to device installation, stopping data exfiltration and SMS interception at the threshold.',
       howItWorks:
-        'Yeh system 3 stariye (3-layer) scanning par kaam karta hai: (1) Layer 1: File ka unique cryptographic SHA-256 fingerprint nikal kar 70+ global antivirus engines (VirusTotal) par match karta hai. (2) Layer 2: APK ko bina run kiye safe tareeqe se decompile karta hai aur manifest permissions (SMS read/send, overlay popup, background audio record) aur hidden DexClassLoader payloads dhoondhta hai. (3) Layer 3: AI Machine Learning Classifier code features ke aadhar par 0 se 100% ka exact Risk Score generate karta hai.',
+        'Employs a comprehensive three-tier inspection pipeline: (1) Layer 1 computes the cryptographic SHA-256 hash and queries global threat intelligence databases (VirusTotal). (2) Layer 2 performs deep static decompilation without code execution, auditing manifest permissions (such as background SMS interception, SYSTEM_ALERT_WINDOW overlays, and Accessibility Service abuse) and searching for dynamic code loaders (DexClassLoader). (3) Layer 3 leverages an AI/heuristic risk-scoring model that generates an overall threat probability score from 0% to 100%.',
       verdictOutcome:
-        'App ka name, package name, dangerous permissions list, obfuscation analysis, aur downloadable forensic PDF report.',
-      whoUses: 'Android users, IT professionals, app testers, aur mobile security researchers.',
+        'Detailed package metadata, forensic manifest permission breakdown, obfuscation metrics, and an exportable forensic report.',
+      whoUses: 'Android device users, IT security administrators, app developers, and mobile forensics auditors.',
       color: 'var(--cyan)',
       bg: 'rgba(6, 182, 212, 0.08)',
       border: 'rgba(6, 182, 212, 0.3)',
@@ -66,12 +66,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       badge: 'URL & Clone Phishing Defense',
       title: 'Phishing & Fake Website Deep Inspector',
       objective:
-        'Bank login pages, PAN/Aadhaar update portals, aur e-commerce sites ke duplicate clones (typosquatting links) ko be-naqab karna, taaki user fraud link par apna username, password ya credit card details submit na kare.',
+        'To expose deceptive lookalike websites and typosquatted domains imitating major banking portals, identity verification portals, and retail services before users disclose credentials or financial card details.',
       howItWorks:
-        'Yeh URL ko kholne ke bajaye ek isolated backend sandbox me inspect karta hai. Levenshtein string-distance algorithm se check hota hai ki domain SBI, HDFC, Paytm ya Amazon ki spelling copy karke banayi gayi hai ya nahi (e.g. `sbi-kyc-update.com`). Saath hi WHOIS protocol se Domain Age check karta hai (zyadatar fraud websites 2 se 10 din purani hoti hain), aur HTML page ke andar chhupe huye password forms aur sneaky meta-refresh redirects ko extract karta hai.',
+        'Analyzes the submitted target within an isolated server environment without exposing the client browser. It calculates the Levenshtein string distance against legitimate institutional brands, checks WHOIS domain registration age (as disposable phishing campaigns typically rely on newly registered domains), and inspects raw page DOM structures for obfuscated credential forms and deceptive meta-refresh redirections.',
       verdictOutcome:
-        'Website ka Safe/Suspicious/Malicious verdict, Redirection chain, Domain registration age, aur input forms ka audit.',
-      whoUses: 'Net banking karne wale, SMS/Email me aaye link par shaq karne wale users.',
+        'Safe, Suspicious, or Malicious classification, full HTTP redirect chain visualization, domain registration age metrics, and form input security audits.',
+      whoUses: 'Online banking clients, digital shoppers, and recipients of unsolicited account update messages.',
       color: 'var(--amber)',
       bg: 'rgba(245, 158, 11, 0.08)',
       border: 'rgba(245, 158, 11, 0.3)',
@@ -82,12 +82,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       badge: 'Privacy & Token Masking',
       title: 'OTP Guard (Auto-Redaction & Privacy Shield)',
       objective:
-        'Log anjaane me customer care ya dosto ko SMS ka screenshot ya copied text bhej dete hain jisme unka banking OTP likha hota hai. Is tool ka udyesy hai ki kisi bhi text ya message ko share karne se pehle usme se har secret OTP aur transaction PIN ko auto-censor kar diya jaye.',
+        'To prevent accidental disclosure of one-time passwords, temporary access pins, and transaction authorization codes when sharing screenshots, messages, or support tickets with third parties.',
       howItWorks:
-        'Yeh multi-lingual context keywords (OTP, Verification Code, Pin Hai, Code Hai) ke aas-paas ke 4 se 8 digit ke numeric aur alphanumeric tokens ko regex proximity scanning se scan karta hai. Jaise hi koi code milta hai, yeh use safe placeholder `[REDACTED-OTP]` se replace kar deta hai. Real code values server ke database ya logs me kabhi store nahi hoti.',
+        'Applies high-speed regular expression patterns anchored by contextual verification keywords. Numeric and alphanumeric tokens located within proximity of authentication phrases are automatically identified and replaced with secure `[REDACTED-OTP]` tokens. Raw verification values are never retained in server logs or databases.',
       verdictOutcome:
-        'Sanitized & copy-ready safe text jise aap bina kisi dar ke kisi bhi forum, support agent ya friend ke saath share kar sakte hain.',
-      whoUses: 'Customer support par baat karne wale users aur SMS error share karne wale log.',
+        'Clean, sanitized, and safely shareable text where all authentication codes are masked.',
+      whoUses: 'Users communicating with customer support channels, technical forums, or transmitting error logs.',
       color: '#a855f7',
       bg: 'rgba(168, 85, 247, 0.08)',
       border: 'rgba(168, 85, 247, 0.3)',
@@ -95,15 +95,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     {
       id: 'scam',
       icon: <PhoneCall size={32} color="var(--red)" />,
-      badge: 'Community Intel & Pwned Check',
-      title: 'Scam DB & Password Breach Checker',
+      badge: 'Threat Intelligence & Credential Audit',
+      title: 'Scam Intelligence & Password Breach Checker',
       objective:
-        'Fraudsters ke un numbers aur UPI handles ki pehchan karna jo pehle se logo ko loot chuke hain, aur user ko yeh batana ki unka personal password dark web data breaches me leak toh nahi ho chuka.',
+        'To provide immediate intelligence on suspect contact numbers and virtual payment addresses, while empowering users to verify whether their credentials have been compromised in historical public data breaches.',
       howItWorks:
-        'Scam Lookup: Yeh crowdsourced SQLite database me reported phone numbers aur UPI handles ko match karta hai. Password Breach Checker: Yeh Troy Hunt ke HaveIBeenPwned API ke sath k-Anonymity model par kaam karta hai — aapka asli password kabhi network par nahi jata; sirf uske SHA-1 hash ke pehle 5 characters bheje jate hain aur mathematically match kiya jata hai ki password kitni baar leak ho chuka hai.',
+        'Performs indexed queries against structured threat databases for reported phone numbers and UPI payment addresses. For credential breach verification, it implements the industry-standard k-Anonymity model: only the first five characters of the SHA-1 password hash are queried against breached credential stores, guaranteeing zero client password transmission across the wire.',
       verdictOutcome:
-        'Kitni baar report hua, kis category ka scam tha (KYC, Lottery, Job), aur password kitne data breaches me samne aaya.',
-      whoUses: 'OLX/Quikr par anjaan payment lene wale, suspicious call paane wale, aur account security audit karne wale users.',
+        'Report history, category categorization, and exact breach count frequencies to prompt timely password rotation.',
+      whoUses: 'Peer-to-peer marketplace users, online transactors, and individuals managing credential hygiene.',
       color: 'var(--red)',
       bg: 'rgba(239, 68, 68, 0.08)',
       border: 'rgba(239, 68, 68, 0.3)',
@@ -111,15 +111,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     {
       id: 'tools',
       icon: <Server size={32} color="#3b82f6" />,
-      badge: 'Infra & Web Hardening Suite',
+      badge: 'Infrastructure Hardening Suite',
       title: 'Web & Infrastructure Security Tools',
       objective:
-        'Websites, servers aur domains ki security vulnerabilities ko scan karna taaki attackers unke users ko hijack na kar sakein (Clickjacking, MIME Sniffing, Email Phishing, Open Port Exposure).',
+        'To inspect and evaluate public-facing domains, web properties, and service endpoints for critical misconfigurations that expose systems and users to transport-layer eavesdropping, email spoofing, and service compromise.',
       howItWorks:
-        'Isme 4 mukhya module hain: (1) HTTP Security Headers Check: Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), aur X-Frame-Options ko audit karke A se F tak grade deta hai. (2) SSL/TLS Cert Inspector: Socket-level handshakes se certificate issuer, expiry date, aur cipher strength verify karta hai. (3) Email Spoofing Defense: DNS-over-HTTPS (DoH) se domain ke SPF aur DMARC records check karta hai ki koi us domain ke naam par nakli email toh nahi bhej sakta. (4) Port Exposure Scanner: High-risk ports (SSH, RDP, Telnet, MySQL) open hain ya closed, yeh scan karta hai.',
+        'Operates four distinct diagnostic modules: (1) HTTP Security Headers Analyzer: Evaluates HSTS, CSP, and framing protection, calculating an authoritative compliance letter grade (A to F). (2) SSL/TLS Certificate Inspector: Connects via low-level TLS handshakes to verify cryptographic validity, issuer chains, and cipher suites. (3) Email Spoofing Defense: Uses DNS-over-HTTPS (DoH) queries to audit SPF and DMARC enforcement policies. (4) Port Exposure Scanner: Determines the operational state of critical service ports (SSH, RDP, Telnet, Database).',
       verdictOutcome:
-        'Letter grade score, missing security headers recommendations, expiry countdown, aur port risk categorization.',
-      whoUses: 'Web developers, sysadmins, DevOps engineers, aur cybersecurity analysts.',
+        'Comprehensive security grade, remediation recommendations, certificate expiration countdowns, and network exposure reports.',
+      whoUses: 'Web developers, system engineers, DevOps personnel, and cybersecurity evaluators.',
       color: '#3b82f6',
       bg: 'rgba(59, 130, 246, 0.08)',
       border: 'rgba(59, 130, 246, 0.3)',
@@ -129,23 +129,23 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const steps = [
     {
       step: '01',
-      title: 'Input Paste Karein',
-      desc: 'Aapko jo bhi suspicious laga — chahe anjaan phone number ho, UPI ID, link, koi message, ya koi file/APK — use simply paste ya upload karein.',
+      title: 'Submit Target Input',
+      desc: 'Paste or upload any suspicious phone number, UPI address, website link, SMS/chat message, or APK file into the analyzer.',
     },
     {
       step: '02',
-      title: 'Multi-Engine Analysis',
-      desc: 'OneClick ka backend bina kisi delay ke VirusTotal, Androguard static heuristics, Scam DB, aur AI model se test run karta hai.',
+      title: 'Multi-Engine Processing',
+      desc: 'The backend coordinates static decompilation, heuristic threat detection, cryptographic hash queries, and database lookups.',
     },
     {
       step: '03',
-      title: 'Seedha Verdict (Traffic Light)',
-      desc: 'Aapko bina technical bhasha ke 🟢 Safe, 🟡 Caution, ya 🔴 Danger ka clear status milta hai.',
+      title: 'Clear Safety Verdict',
+      desc: 'Receive an immediate traffic-light determination (🟢 Safe, 🟡 Caution, 🔴 Danger) free from convoluted technical terminology.',
     },
     {
       step: '04',
-      title: 'Next Action & Protection',
-      desc: 'Agar fraud hai, toh 1930 cyber helpline, card freeze steps aur emergency recovery guidance turant screen par milti hai.',
+      title: 'Actionable Remediation',
+      desc: 'Access verified emergency checklists, recovery guidance, and direct hotlines to freeze unauthorized accounts and report fraud.',
     },
   ];
 
@@ -182,7 +182,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             }}
           >
             <Shield size={16} />
-            <span>ALL-IN-ONE CYBER DEFENSE PLATFORM</span>
+            <span>COMPREHENSIVE CYBER DEFENSE PLATFORM</span>
           </div>
 
           <h1
@@ -195,7 +195,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               letterSpacing: '-1px',
             }}
           >
-            Cyber Frauds & Malware Se Suraksha,{' '}
+            Protection from Cyber Fraud & Malware,{' '}
             <span
               style={{
                 background: 'linear-gradient(135deg, var(--teal), var(--cyan))',
@@ -203,7 +203,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              Ab Har Kisi Ke Liye Aasan
+              Accessible to Everyone
             </span>
           </h1>
 
@@ -217,7 +217,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               margin: '0 auto 32px auto',
             }}
           >
-            OneClick ka lakshya cyber security ko lab se nikal kar aam naagrik ki mutthi me dena hai. Yahan <b>bina kisi technical knowledge</b> ke koi bhi vyakti WhatsApp scams, fake banking APKs, aur phishing links ko pehchan sakta hai, aur <b>developers</b> deep code & infrastructure audits kar sakte hain.
+            OneClick delivers enterprise-grade security diagnostics through an intuitive interface. Everyday citizens can effortlessly detect social engineering scams and fake banking files without technical training, while developers and security professionals can conduct deep code and infrastructure audits.
           </p>
 
           {/* Quick CTA Buttons */}
@@ -261,13 +261,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section>
         <div style={{ textAlign: 'center', marginBottom: '44px' }}>
           <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '8px' }}>
-            HAMARI SEVAYEIN AUR UNKE PICHHE KA UDDESHYA
+            OUR SERVICES & SYSTEM ARCHITECTURE
           </div>
           <h2 style={{ fontSize: '34px', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>
-            Har Tool Ki Puraani Pith-Bhoomi Aur Karyapranali
+            Detailed Analysis of Every Security Tool
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '15.5px', maxWidth: '720px', margin: '10px auto 0 auto', lineHeight: 1.6 }}>
-            Niche samjhein ki har ek tool ko kyu banaya gaya hai, iska mool uddeshya (purpose) kya hai, yeh takneeki roop se kaise kaam karta hai, aur iska result kya hota hai:
+          <p style={{ color: 'var(--text-muted)', fontSize: '15.5px', maxWidth: '740px', margin: '10px auto 0 auto', lineHeight: 1.6 }}>
+            Review the rationale behind each specialized diagnostic tool, its technical execution pipeline, and how it delivers actionable security determinations:
           </p>
         </div>
 
@@ -322,7 +322,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         {t.badge}
                       </span>
                       <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>
-                        TOOL #{index + 1}
+                        MODULE #{index + 1}
                       </span>
                     </div>
                     <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#fff' }}>
@@ -354,14 +354,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     e.currentTarget.style.color = t.color;
                   }}
                 >
-                  <span>Abhi Use Karein</span>
+                  <span>Launch Tool</span>
                   <ChevronRight size={15} />
                 </button>
               </div>
 
               {/* Three Detailed Paragraph Blocks */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                {/* 1. Uddeshya (Objective) */}
+                {/* 1. Objective */}
                 <div
                   style={{
                     background: 'rgba(0, 0, 0, 0.25)',
@@ -372,14 +372,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: t.color, fontWeight: 800, fontSize: '14px', marginBottom: '6px' }}>
                     <Target size={16} />
-                    <span>Tool Banane Ka Uddeshya (Objective & Background):</span>
+                    <span>Purpose & Problem Addressed:</span>
                   </div>
                   <p style={{ color: '#e2e8f0', fontSize: '14.5px', lineHeight: 1.65, margin: 0 }}>
                     {t.objective}
                   </p>
                 </div>
 
-                {/* 2. Kaise Kaam Karta Hai (How it Works) */}
+                {/* 2. Technical Mechanism */}
                 <div
                   style={{
                     background: 'rgba(0, 0, 0, 0.25)',
@@ -390,7 +390,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--cyan)', fontWeight: 800, fontSize: '14px', marginBottom: '6px' }}>
                     <Cpu size={16} />
-                    <span>Yeh Kaam Kaise Karta Hai? (Technical Mechanism):</span>
+                    <span>Technical Architecture & Mechanism:</span>
                   </div>
                   <p style={{ color: '#cbd5e1', fontSize: '14.5px', lineHeight: 1.65, margin: 0 }}>
                     {t.howItWorks}
@@ -414,7 +414,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     }}
                   >
                     <div style={{ fontSize: '12.5px', fontWeight: 800, color: 'var(--teal)', marginBottom: '4px' }}>
-                      📊 Kya Outcome / Result Milta Hai:
+                      📊 Diagnostic Output:
                     </div>
                     <div style={{ fontSize: '13.5px', color: '#e2e8f0', lineHeight: 1.5 }}>
                       {t.verdictOutcome}
@@ -430,7 +430,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     }}
                   >
                     <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#94a3b8', marginBottom: '4px' }}>
-                      👥 Kiske Liye Sabse Labhdayak Hai:
+                      👥 Primary Beneficiaries:
                     </div>
                     <div style={{ fontSize: '13.5px', color: '#e2e8f0', lineHeight: 1.5 }}>
                       {t.whoUses}
@@ -454,10 +454,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       >
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--teal)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>
-            SIMPLE WORKFLOW
+            OPERATIONAL WORKFLOW
           </div>
           <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff' }}>
-            OneClick Par Kaise Check Karein? (4 Simple Steps)
+            How OneClick Executes Diagnostics (4-Step Pipeline)
           </h2>
         </div>
 
@@ -512,13 +512,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div style={{ maxWidth: '780px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f87171', fontWeight: 800, fontSize: '14px', marginBottom: '6px' }}>
             <AlertTriangle size={18} />
-            <span>KISI FINANCIAL SCAM YA FRAUD KA SHIKAAR HO GAYE HAIN?</span>
+            <span>VICTIM OF AN ACTIVE FINANCIAL CYBER INCIDENT?</span>
           </div>
           <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '6px' }}>
-            Ghabrayein nahi, 2-Hour Golden Window me turant 1930 par call karein.
+            Immediate action is vital: Contact National Cybercrime Helpline 1930 within the 2-Hour Golden Window.
           </h3>
           <p style={{ color: '#cbd5e1', fontSize: '14px', lineHeight: 1.5, margin: 0 }}>
-            Bharat Sarkar ke National Cybercrime Portal (I4C) dwara operated helpline bank se direct connect hokar criminal ke account ko turant freeze karti hai.
+            Managed by the Ministry of Home Affairs (I4C), the Citizen Financial Cyber Fraud Management System directly communicates with commercial banking networks to freeze fraudulent transactions in real time.
           </p>
         </div>
 
