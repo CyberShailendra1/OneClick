@@ -21,7 +21,10 @@ import {
   Sparkles,
   LifeBuoy,
   Landmark,
+  EyeOff,
+  UserX,
 } from 'lucide-react';
+
 
 
 interface HomePageProps {
@@ -825,6 +828,212 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* Non-Consensual Intimate Image (NCII) & Nude Content Takedown Services */}
+      <section
+        style={{
+          background: 'linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(49, 46, 129, 0.9))',
+          border: '1px solid rgba(168, 85, 247, 0.35)',
+          borderRadius: '20px',
+          padding: '38px',
+        }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', borderRadius: '999px', background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+            <EyeOff size={14} />
+            <span>Digital Privacy & Dignity Protection</span>
+          </div>
+          <h2 style={{ fontSize: '30px', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>
+            How to Remove Leaked Intimate / Nude Photos & Videos from the Internet
+          </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px', maxWidth: '780px', margin: '8px auto 0 auto', lineHeight: 1.6 }}>
+            If intimate media, morphed photographs, or sextortion material has been published or threatened to be shared online without consent, victims can legally take down and stop the viral circulation of this content across major tech platforms without having to share the actual media with anyone:
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '22px' }}>
+          {/* Service 1: StopNCII.org */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(168, 85, 247, 0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc' }}>
+                  GLOBAL HASH-BLOCKING TECH
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>SWGfL / Meta / Tech Coalition</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                StopNCII.org (Stop Non-Consensual Intimate Images)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Free, privacy-preserving global platform that generates secure digital hashes directly inside your browser to preemptively block and take down leaked intimate photos and videos across Facebook, Instagram, TikTok, OnlyFans, and Threads.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#c084fc', marginBottom: '8px' }}>
+                  📌 Step-by-Step Usage Guide:
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <div>
+                    <b>1. Open StopNCII.org in Your Browser:</b> The entire process is 100% private. <u>Your photo or video NEVER leaves your device and is NEVER uploaded to any server</u>.
+                  </div>
+                  <div>
+                    <b>2. Select the File on Your Device:</b> StopNCII runs an algorithm locally in your device's browser to generate a unique digital fingerprint (cryptographic hash value) of that specific photo/video.
+                  </div>
+                  <div>
+                    <b>3. Cryptographic Hash Sharing:</b> Only the numerical hash code is shared with partner tech platforms (Meta, Instagram, TikTok, Reddit).
+                  </div>
+                  <div>
+                    <b>4. Automated Nationwide/Worldwide Block:</b> When an extortionist or fraudster attempts to upload that image or video, the platform's filters recognize the matched hash and immediately block the upload before anyone can view it.
+                  </div>
+                  <div>
+                    <b>5. Keep Your Case PIN:</b> Save the provided 9-digit PIN to check your case status and hash enforcement at any time.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://stopncii.org"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#c084fc' }}
+            >
+              <span>Visit stopncii.org</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 2: Take It Down */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(236, 72, 153, 0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6' }}>
+                  UNDER 18 & MINOR PROTECTION
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>NCMEC</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                Take It Down (For Minors & Young Adults)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Specialized confidential removal service operated by the National Center for Missing & Exploited Children (NCMEC) for anyone who had nude, partially nude, or sexually explicit photos taken before they turned 18.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#f472b6', marginBottom: '8px' }}>
+                  📌 Step-by-Step Usage Guide:
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <div>
+                    <b>1. Anonymous Access:</b> No identity card or parental disclosure is required to start a case.
+                  </div>
+                  <div>
+                    <b>2. On-Device Numerical Hashing:</b> Select the explicit media stored on your phone or PC. A secure hash is computed right on your device.
+                  </div>
+                  <div>
+                    <b>3. Platform Integration:</b> The hash is fed into global social media networks and pornographic hosting aggregators to locate and purge existing copies.
+                  </div>
+                  <div>
+                    <b>4. Legal Action Trigger:</b> Distribution of underage intimate imagery constitutes a severe federal offense (POCSO in India); NCMEC coordinates international law enforcement takedowns.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://takeitdown.ncmec.org"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#f472b6' }}
+            >
+              <span>Visit takeitdown.ncmec.org</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 3: National Cybercrime Portal - Women & Child Section */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>
+                  LEGAL TAKEDOWN & ANONYMOUS REPORT
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Govt of India (MHA)</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                Cybercrime.gov.in: Women & Child Crime Reporting
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Official Indian government portal under Section 67 & 67A of the IT Act allowing citizens to file confidential complaints against non-consensual image sharing, deepfake morphing, and cyber sextortion.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#f87171', marginBottom: '8px' }}>
+                  📌 Step-by-Step Usage Guide:
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <div>
+                    <b>1. Choose "Report Anonymously":</b> You have the legal right to submit complaints anonymously without disclosing your identity publicly on the portal.
+                  </div>
+                  <div>
+                    <b>2. Provide URLs & Social Media Handles:</b> Paste the exact website links, WhatsApp sender numbers, Telegram channels, or Instagram profile handles where the extortion or image hosting occurs.
+                  </div>
+                  <div>
+                    <b>3. Law Enforcement IT Act Notice:</b> Under Indian IT Rules 2021 (Rule 3(2)(b)), social media intermediaries (Instagram, X/Twitter, Google) are legally mandated to remove sexually explicit content within <b>24 hours</b> of receiving notification.
+                  </div>
+                  <div>
+                    <b>4. Intermediary Takedown:</b> Police nodal cyber cells issue official preservation and takedown orders to internet service providers to permanently de-index the content.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://cybercrime.gov.in/Webform/Crime_AuthoLogin.aspx"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#f87171' }}
+            >
+              <span>File Complaint on cybercrime.gov.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
+      </section>
+
 
 
       {/* Emergency Assistance Footer Banner */}
