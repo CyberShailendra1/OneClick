@@ -13,6 +13,7 @@ import {
   EmailSecurityResult,
   PortScanResult,
   GenericFileResult,
+  SmartAnalyzeResult,
 } from './types';
 
 const API_BASE = ''; // uses Vite proxy in dev, or same host in prod
@@ -253,5 +254,19 @@ export async function scanGenericFile(file: File, vtApiKey?: string): Promise<Ge
   if (!res.ok) throw new Error('File scan failed');
   return res.json();
 }
+
+export async function smartAnalyze(query: string, vtApiKey?: string): Promise<SmartAnalyzeResult> {
+  const params = new URLSearchParams();
+  if (vtApiKey) params.append('vt_api_key', vtApiKey);
+
+  const res = await fetch(`${API_BASE}/smart-analyze?${params.toString()}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  if (!res.ok) throw new Error('Smart analysis failed');
+  return res.json();
+}
+
 
 

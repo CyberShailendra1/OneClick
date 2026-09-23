@@ -16,7 +16,14 @@ from modules.ml_classifier import predict_risk, MODEL_PATH
 from modules.advanced_static import run_advanced_analysis
 from modules.fake_app_detector import check_fake_banking_app
 from modules import database
-from androguard.misc import AnalyzeAPK
+
+try:
+    from androguard.misc import AnalyzeAPK
+    HAS_ANDROGUARD = True
+except Exception:
+    AnalyzeAPK = None
+    HAS_ANDROGUARD = False
+
 
 
 def scan_apk(file_path: str, filename: str, vt_api_key: str = None,
@@ -63,6 +70,10 @@ def scan_apk(file_path: str, filename: str, vt_api_key: str = None,
         return result
 
     # ---- Layer 2 ----
+    if not HAS_ANDROGUARD or AnalyzeAPK is None:
+        result["error"] = "Androguard is not installed on this system. APK decompilation is unavailable."
+        return result
+
     try:
         a, d, dx = AnalyzeAPK(file_path)
         features = analyze_apk_from_objs(a, d)
@@ -84,11 +95,8 @@ def scan_apk(file_path: str, filename: str, vt_api_key: str = None,
             result["advanced"] = {"error": str(e)}
 
     # ---- Layer 3 ----
-    if not os.path.exists(MODEL_PATH):
-        result["error"] = "No trained model found. Run models/train_model.py first."
-        return result
-
     ml_result = predict_risk(features)
+
 
     # A detected banking-app impersonation is a strong, deterministic signal -
     # override the verdict rather than leaving it to the (synthetic-trained)

@@ -40,7 +40,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const tabs = [
-    { id: 'single', label: 'Single Scan', icon: '🔍' },
+    { id: 'shield', label: 'Smart Shield', icon: '🛡️' },
+    { id: 'single', label: 'APK Scanner', icon: '🔍' },
     { id: 'batch', label: 'Batch Scan', icon: '📦' },
     { id: 'history', label: 'History', icon: '🕓' },
     { id: 'phishing', label: 'Phishing & URLs', icon: '🎣' },
@@ -54,7 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px' }}>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveTab('single')}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveTab('shield')}>
+
             <div style={{
               width: '40px', height: '40px', borderRadius: '10px',
               background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(6, 182, 212, 0.2))',

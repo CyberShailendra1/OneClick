@@ -17,6 +17,7 @@ export default defineConfig({
       '/scam-lookup': 'http://localhost:8000',
       '/breach': 'http://localhost:8000',
       '/tools': 'http://localhost:8000',
+      '/smart-analyze': 'http://localhost:8000',
     },
   },
   build: {

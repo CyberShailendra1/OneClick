@@ -15,18 +15,29 @@ SCAM_PATTERNS = [
     (
         "Digital Arrest / Fake Law Enforcement",
         ["digital arrest", "cyber crime cell", "your aadhaar is linked to", "money laundering case",
-         "narcotics case", "arrest warrant", "do not disconnect the call", "stay on video call"],
+         "narcotics case", "arrest warrant", "do not disconnect the call", "stay on video call", "cbi verification", "police notice"],
         "This matches the 'digital arrest' scam pattern - fraudsters impersonate police/CBI/customs "
         "officials on video call and pressure victims into transferring money to avoid a fake arrest. "
         "Real law enforcement never arrests or demands money over a phone/video call.",
     ),
     (
+        "Electricity / Utility Disconnection Threat",
+        ["electricity power will be disconnected", "power will be disconnected", "power cut tonight",
+         "electricity bill was not updated", "power officer", "bill not updated", "electricity disconnected tonight",
+         "bijli cut", "bijli connection", "power will be cut"],
+        "This matches the electricity bill fraud pattern - scammers send fake disconnection warnings "
+        "demanding immediate payment or calling a fake officer number. Electricity boards never issue "
+        "same-day night disconnection threats via WhatsApp/SMS personal numbers.",
+    ),
+    (
         "Fake Courier / Customs Hold",
         ["parcel is held at customs", "package is stuck at customs", "illegal items found in your parcel",
-         "courier is on hold", "pay customs duty", "fedex your parcel", "parcel contains banned"],
+         "courier is on hold", "pay customs duty", "fedex your parcel", "parcel contains banned", "sorting hub",
+         "package is on hold", "indiapost", "missing house number"],
         "This matches the fake courier/customs scam - a call or message claims your parcel is held "
         "and asks for a 'customs fee' or personal/bank details to release it.",
     ),
+
     (
         "Lottery / Prize Scam",
         ["you have won", "lucky winner", "claim your prize", "lottery winner", "kbc lottery",

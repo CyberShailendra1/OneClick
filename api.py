@@ -9,6 +9,7 @@ Docs (auto-generated) at: http://localhost:8000/docs
 """
 
 import os
+import re
 import shutil
 import tempfile
 import uuid
@@ -28,6 +29,7 @@ from modules.phishing_scanner import scan_url, extract_urls_from_text, investiga
 from modules.otp_guard import redact_message
 from modules.scam_lookup import check_phone_number, check_upi_id, add_report
 from modules.breach_checker import check_password_pwned
+from modules.scam_pattern_detector import detect_scam_patterns
 from modules.security_tools import (
     check_security_headers,
     inspect_ssl_cert,
@@ -367,6 +369,171 @@ async def scan_file_endpoint(
             os.unlink(tmp_path)
 
     return result
+
+
+# ---------------------------------------------------------------------------
+# Universal Citizen Smart Analyzer (Zero-Knowledge Security Shield)
+# ---------------------------------------------------------------------------
+
+class SmartAnalyzeRequest(BaseModel):
+    query: str
+    vt_api_key: str | None = None
+
+
+@app.post("/smart-analyze")
+def smart_analyze_endpoint(req: SmartAnalyzeRequest):
+    raw_query = req.query.strip()
+    active_vt_key = get_default_vt_key(req.vt_api_key)
+
+    if not raw_query:
+        raise HTTPException(status_code=400, detail="Query cannot be empty")
+
+    # 1. Check if it's a Phone Number (10 to 13 digits with optional +, spaces, dashes)
+    clean_digits = re.sub(r"[^0-9]", "", raw_query)
+    is_phone_pattern = bool(re.match(r"^(\+?91|0)?[6-9]\d{9}$", raw_query.replace(" ", "").replace("-", "")))
+    if is_phone_pattern or (len(clean_digits) == 10 and not any(c in raw_query for c in ['@', '/', '.'])):
+        phone_res = check_phone_number(raw_query)
+        if phone_res["is_reported"]:
+            return {
+                "type": "phone",
+                "level": "danger",
+                "title": "🚨 Fraudulent / Scam Phone Number Detected",
+                "summary": f"This number has been reported {phone_res['report_count']} time(s) for cyber fraud ({phone_res['category'] or 'Scam'}).",
+                "actions": [
+                    "Do NOT answer or call back this number.",
+                    "Do NOT share OTPs, passwords, or bank account details.",
+                    "Block this number on your phone and WhatsApp immediately.",
+                    "If you sent money, immediately call National Cybercrime Helpline 1930."
+                ],
+                "details": phone_res,
+            }
+        else:
+            return {
+                "type": "phone",
+                "level": "safe",
+                "title": "🟢 No Fraud Reports Found for this Number",
+                "summary": "This phone number is not listed in our database of reported scam callers.",
+                "actions": [
+                    "Remember: Even unknown callers can try social engineering. Never share your bank OTP or UPI PIN with anyone."
+                ],
+                "details": phone_res,
+            }
+
+    # 2. Check if it's a UPI ID / VPA (e.g. name@bank)
+    if re.match(r"^[\w\.\-]+@[a-zA-Z0-9]+$", raw_query):
+        upi_res = check_upi_id(raw_query)
+        if upi_res["is_reported"]:
+            return {
+                "type": "upi",
+                "level": "danger",
+                "title": "🚨 Fraudulent UPI ID / VPA Detected",
+                "summary": f"This UPI address has been flagged for financial fraud ({upi_res['category'] or 'Scam'}).",
+                "actions": [
+                    "Do NOT send any money or scan any QR code linked to this ID.",
+                    "Remember: You NEVER need to enter your UPI PIN to RECEIVE money.",
+                    "Report this handle in your UPI app (GPay/PhonePe/Paytm) as fraud."
+                ],
+                "details": upi_res,
+            }
+        else:
+            return {
+                "type": "upi",
+                "level": "safe",
+                "title": "🟢 Clean UPI Handle",
+                "summary": "This UPI handle has no active fraud complaints in our database.",
+                "actions": [
+                    "Safety Rule: Entering your UPI PIN always DEBITS (deducts) money from your account, never credits it."
+                ],
+                "details": upi_res,
+            }
+
+    # 3. Check if it's a URL or contains URLs
+    urls_found = extract_urls_from_text(raw_query)
+    is_standalone_url = bool(re.match(r"^(https?://|[a-zA-Z0-9\-]+\.[a-zA-Z]{2,})", raw_query)) and " " not in raw_query
+
+    if is_standalone_url or len(urls_found) > 0:
+        target_url = raw_query if is_standalone_url else urls_found[0]
+        url_res = scan_url(target_url, vt_api_key=active_vt_key)
+        
+        # Save to database
+        database.save_url_scan(
+            url=url_res["url"], verdict=url_res["label"],
+            risk_score=url_res["score"], reasons=url_res["reasons"]
+        )
+
+        level = "safe"
+        if url_res["label"] == "Malicious":
+            level = "danger"
+        elif url_res["label"] == "Suspicious":
+            level = "caution"
+
+        return {
+            "type": "url",
+            "level": level,
+            "title": f"{'🚨 Dangerous Malicious Link' if level == 'danger' else '⚠️ Suspicious Link Detected' if level == 'caution' else '🟢 Link Appears Safe'}",
+            "summary": f"Risk Score: {url_res['score']}%. " + ("; ".join(url_res["reasons"]) if url_res["reasons"] else "No active phishing patterns detected."),
+            "actions": [
+                "Do NOT enter your passwords, card numbers, or personal information on this page." if level != "safe" else "Link verified safe by heuristic checks.",
+                "If you clicked this link and entered bank credentials, immediately change your online banking password and freeze your card.",
+                "Never download or install APK files or unknown software from unverified links."
+            ],
+            "details": url_res,
+        }
+
+    # 4. Text Message / SMS / WhatsApp Message Analysis
+    scam_patterns = detect_scam_patterns(raw_query)
+    redacted = redact_message(raw_query)
+
+    if scam_patterns:
+        top_scam = scam_patterns[0]
+        return {
+            "type": "message",
+            "level": "danger",
+            "title": f"🚨 Scam Alert: {top_scam['category']}",
+            "summary": top_scam["explanation"],
+            "actions": [
+                "Do NOT reply, call any number in the message, or click any links.",
+                "Real police, CBI, or judges NEVER put anyone under 'Digital Arrest' or demand money via video calls.",
+                "Electricity boards or banks NEVER threaten immediate disconnection via random personal numbers.",
+                "Report cyber fraud to the government helpline by calling 1930."
+            ],
+            "details": {
+                "matched_patterns": scam_patterns,
+                "sanitized_message": redacted["redacted_text"],
+                "otps_masked": redacted.get("codes_hidden", 0),
+            }
+        }
+
+    # If sensitive codes were found
+    codes_hidden = redacted.get("codes_hidden", 0)
+    if codes_hidden > 0:
+        return {
+            "type": "message",
+            "level": "caution",
+            "title": "⚠️ Sensitive OTP / Verification Code Detected in Message",
+            "summary": f"Found {codes_hidden} secret code(s) inside this message. We masked them to protect you.",
+            "actions": [
+                "NEVER share this code with anyone, even someone claiming to be bank manager or support staff.",
+                "Banks and official institutions NEVER ask for your OTP over phone, SMS, or WhatsApp."
+            ],
+            "details": {
+                "sanitized_message": redacted["redacted_text"],
+                "codes_found": codes_hidden,
+            }
+        }
+
+    # Default Clean text
+
+    return {
+        "type": "general",
+        "level": "safe",
+        "title": "🟢 No Known Scam Patterns Detected",
+        "summary": "This message does not match known cyber fraud scripts (electricity cut-off, digital arrest, fake courier, lottery).",
+        "actions": [
+            "Always be cautious if an unknown sender creates urgency or asks for money/personal details."
+        ],
+        "details": {"raw_text": raw_query},
+    }
 
 
 # ---------------------------------------------------------------------------

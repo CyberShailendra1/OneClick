@@ -207,4 +207,18 @@ export interface GenericFileResult {
   virustotal?: any;
 }
 
+export interface SmartAnalyzeResult {
+  type: 'phone' | 'upi' | 'url' | 'message';
+  level: 'safe' | 'caution' | 'danger';
+  title: string;
+  summary: string;
+  actions: string[];
+  details: {
+    redacted_preview?: string;
+    threats_detected?: string[];
+    [key: string]: any;
+  };
+}
+
+
 

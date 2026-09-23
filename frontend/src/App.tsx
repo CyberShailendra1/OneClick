@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { CitizenShield } from './components/CitizenShield';
 import { SingleScan } from './components/SingleScan';
 import { BatchScan } from './components/BatchScan';
 import { History } from './components/History';
@@ -9,7 +10,7 @@ import { ScamLookup } from './components/ScamLookup';
 import { SecurityTools } from './components/SecurityTools';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('single');
+  const [activeTab, setActiveTab] = useState<string>('shield');
   const [vtApiKey, setVtApiKey] = useState<string>(() => {
     return localStorage.getItem('oneclick_vt_key') || '';
   });
@@ -24,6 +25,7 @@ export const App: React.FC = () => {
       />
 
       <main style={{ flex: 1, maxWidth: '1400px', width: '100%', margin: '0 auto', padding: '28px 24px' }}>
+        {activeTab === 'shield' && <CitizenShield vtApiKey={vtApiKey} onNavigateToTab={setActiveTab} />}
         {activeTab === 'single' && <SingleScan vtApiKey={vtApiKey} />}
         {activeTab === 'batch' && <BatchScan vtApiKey={vtApiKey} />}
         {activeTab === 'history' && <History />}
