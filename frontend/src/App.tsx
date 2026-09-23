@@ -10,17 +10,15 @@ import { PhishingScanner } from './components/PhishingScanner';
 import { OtpGuard } from './components/OtpGuard';
 import { ScamLookup } from './components/ScamLookup';
 import { SecurityTools } from './components/SecurityTools';
-import { UserDashboard } from './components/UserDashboard';
 
 export const App: React.FC = () => {
   // Map between URL paths and tab IDs
   const pathToTab = (pathname: string): string => {
     const clean = pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
-    const validTabs = ['home', 'shield', 'single', 'batch', 'history', 'phishing', 'otp', 'scam', 'tools', 'dashboard'];
+    const validTabs = ['home', 'shield', 'single', 'batch', 'history', 'phishing', 'otp', 'scam', 'tools'];
     if (clean === '' || clean === 'home') return 'home';
     if (clean === 'apk' || clean === 'apk-scanner') return 'single';
     if (clean === 'smart-shield') return 'shield';
-    if (clean === 'login' || clean === 'auth' || clean === 'user') return 'dashboard';
     if (validTabs.includes(clean)) return clean;
     return 'home';
   };
@@ -79,7 +77,6 @@ export const App: React.FC = () => {
             {activeTab === 'otp' && <OtpGuard />}
             {activeTab === 'scam' && <ScamLookup />}
             {activeTab === 'tools' && <SecurityTools vtApiKey={vtApiKey} />}
-            {activeTab === 'dashboard' && <UserDashboard onNavigateToTab={handleNavigate} />}
           </main>
 
           <footer style={{ borderTop: '1px solid var(--border)', padding: '20px 28px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px', background: 'var(--bg-card)', marginTop: 'auto' }}>

@@ -34,7 +34,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       heading: 'Diagnostics & Suite',
       items: [
         { id: 'tools', label: 'Security Tools', icon: '🛠️' },
-        { id: 'dashboard', label: 'Citizen Dashboard', icon: '👤', badge: 'Optional' },
       ]
     }
   ];
@@ -198,3 +197,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </aside>
   );
 };
+

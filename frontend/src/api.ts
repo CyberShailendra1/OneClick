@@ -268,45 +268,6 @@ export async function smartAnalyze(query: string, vtApiKey?: string): Promise<Sm
   return res.json();
 }
 
-export async function sendAuthOtp(phone: string): Promise<{ status: string; message: string; demo_otp?: string }> {
-  const res = await fetch(`${API_BASE}/auth/send-otp`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone }),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || 'Failed to send OTP');
-  }
-  return res.json();
-}
-
-export async function verifyAuthOtp(phone: string, otp: string): Promise<{ status: string; token: string; phone: string }> {
-  const res = await fetch(`${API_BASE}/auth/verify-otp`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone, otp }),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || 'Invalid or expired OTP');
-  }
-  return res.json();
-}
-
-export async function fetchCurrentUser(token: string): Promise<{ status: string; user: any }> {
-  const res = await fetch(`${API_BASE}/auth/me?token=${encodeURIComponent(token)}`);
-  if (!res.ok) throw new Error('Session expired');
-  return res.json();
-}
-
-export async function logoutUser(token: string): Promise<{ status: string }> {
-  const res = await fetch(`${API_BASE}/auth/logout?token=${encodeURIComponent(token)}`, {
-    method: 'POST',
-  });
-  return res.json();
-}
-
 
 
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Key, Activity, CheckCircle, AlertTriangle, ExternalLink, X, User } from 'lucide-react';
-import { checkHealth, fetchCurrentUser } from '../api';
+import { Shield, Key, Activity, CheckCircle, AlertTriangle, ExternalLink, X } from 'lucide-react';
+import { checkHealth } from '../api';
 
 interface NavbarProps {
   activeTab: string;
@@ -38,19 +38,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     localStorage.setItem('oneclick_vt_key', tempKey);
     setShowKeyModal(false);
   };
-
-  const [currentUser, setCurrentUser] = useState<{ phone: string } | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('oneclick_user_token');
-    if (token) {
-      fetchCurrentUser(token)
-        .then((res) => setCurrentUser(res.user))
-        .catch(() => setCurrentUser(null));
-    } else {
-      setCurrentUser(null);
-    }
-  }, [activeTab]);
 
   return (
     <header style={{ borderBottom: '1px solid var(--border)', background: 'rgba(16, 23, 38, 0.95)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50, width: '100%' }}>
@@ -126,24 +113,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Key size={15} color={vtApiKey ? 'var(--teal)' : 'var(--text-muted)'} />
               <span>{vtApiKey ? 'VT Key Set' : 'Add VT Key'}</span>
-            </button>
-
-            {/* Optional Citizen Auth Button */}
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className={currentUser ? 'btn btn-secondary' : 'btn btn-primary'}
-              style={{
-                padding: '6px 12px',
-                fontSize: '13px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                borderColor: currentUser ? 'rgba(20, 184, 166, 0.4)' : undefined
-              }}
-              title={currentUser ? `Logged in: +91 ${currentUser.phone}` : 'Optional Citizen Login'}
-            >
-              <User size={15} color={currentUser ? 'var(--teal)' : '#fff'} />
-              <span>{currentUser ? `+91 ${currentUser.phone}` : 'Sign In'}</span>
             </button>
           </div>
         </div>
