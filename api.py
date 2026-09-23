@@ -537,8 +537,21 @@ def smart_analyze_endpoint(req: SmartAnalyzeRequest):
 
 
 # ---------------------------------------------------------------------------
-# Serve Built React Frontend (if built into frontend/dist)
+# Serve Built React Frontend with SPA routing support
 # ---------------------------------------------------------------------------
 FRONTEND_DIST = os.path.join(os.path.dirname(__file__), "frontend", "dist")
 if os.path.exists(FRONTEND_DIST):
-    app.mount("/", StaticFiles(directory=FRONTEND_DIST, html=True), name="frontend")
+    # Serve assets folder
+    assets_dir = os.path.join(FRONTEND_DIST, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    # Serve index.html for all non-API GET requests (SPA fallback)
+    @app.get("/{full_path:path}")
+    def serve_spa(full_path: str):
+        # If it's a specific static file (like favicon, robots.txt, etc.)
+        target_file = os.path.join(FRONTEND_DIST, full_path)
+        if full_path and os.path.isfile(target_file):
+            return FileResponse(target_file)
+        return FileResponse(os.path.join(FRONTEND_DIST, "index.html"))
+
