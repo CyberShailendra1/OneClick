@@ -1,11 +1,6 @@
-# OneClick systemd service - the production-grade alternative to start.sh.
+# OneClick systemd service - the production-grade service launcher.
 #
-# Unlike start.sh's bash retry loop, systemd:
-#   - Survives terminal/SSH session closing (this was likely your original
-#     "streamlit closes by itself" cause if you were running it with `&` in
-#     an SSH session that then disconnected).
-#   - Restarts automatically on crash, system reboot, etc.
-#   - Gives you `journalctl` for proper log viewing/searching.
+# Survives terminal/SSH session closing and restarts automatically on crash/reboot.
 #
 # INSTALL:
 #   1. Edit the paths below (User, WorkingDirectory, ExecStart) to match
@@ -17,12 +12,12 @@
 # USEFUL COMMANDS:
 #   sudo systemctl status oneclick       # is it running?
 #   sudo journalctl -u oneclick -f       # live logs
-#   sudo journalctl -u oneclick -n 100   # last 100 log lines (great for "why did it crash")
+#   sudo journalctl -u oneclick -n 100   # last 100 log lines
 #   sudo systemctl restart oneclick
 #   sudo systemctl stop oneclick
 
 [Unit]
-Description=OneClick APK/Phishing/OTP Analyzer (Streamlit dashboard)
+Description=OneClick APK/Phishing/Threat Analyzer (FastAPI & React Web UI)
 After=network.target
 # Don't restart-loop forever if it's a genuine startup failure (config error, etc.)
 StartLimitIntervalSec=300
@@ -33,12 +28,11 @@ Type=simple
 User=kali
 WorkingDirectory=/home/kali/OneClick
 ExecStartPre=/usr/bin/python3 /home/kali/OneClick/doctor.py
-ExecStart=/usr/bin/python3 -m streamlit run app.py --server.port 8501 --server.headless true
+ExecStart=/usr/bin/python3 -m uvicorn api:app --host 0.0.0.0 --port 8000
 Restart=on-failure
 RestartSec=3
 
-# Basic hardening (adjust/remove if it causes issues with your specific setup,
-# e.g. ProtectHome=true will block access to files outside WorkingDirectory).
+# Basic hardening
 NoNewPrivileges=true
 
 [Install]

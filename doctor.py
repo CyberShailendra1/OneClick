@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-OneClick "doctor" - run this BEFORE `streamlit run app.py` whenever the app
-crashes right after starting, or after pulling new code / installing on a
-new machine. It checks every dependency (Python package, system binary,
-model file) individually and reports exactly which one is missing, instead
-of you having to decode a Streamlit stack trace.
+OneClick "doctor" - run this BEFORE `uvicorn api:app` whenever the server
+fails to start or after pulling new code / installing on a new machine.
+It checks every dependency (Python package, system binary, model file)
+individually and reports exactly which one is missing.
 
 Usage:
     python3 doctor.py
@@ -13,7 +12,7 @@ Usage:
 import importlib
 import os
 import shutil
-import subprocess
+import socket
 import sys
 
 GREEN, RED, YELLOW, RESET, BOLD = "\033[92m", "\033[91m", "\033[93m", "\033[0m", "\033[1m"
@@ -33,14 +32,14 @@ def warn(msg):
 
 # (import_name, pip_name, required_for)
 CORE_PACKAGES = [
-    ("streamlit", "streamlit", "the dashboard itself - app cannot start without this"),
+    ("fastapi", "fastapi", "FastAPI backend REST framework"),
+    ("uvicorn", "uvicorn", "ASGI web server for API and React Web UI"),
     ("requests", "requests", "VirusTotal / URL scanning"),
     ("androguard", "androguard", "APK static analysis (Layer 2)"),
     ("sklearn", "scikit-learn", "AI risk scoring (Layer 3)"),
-    ("pandas", "pandas", "data tables across the dashboard"),
+    ("pandas", "pandas", "data tables and feature processing"),
     ("joblib", "joblib", "loading the trained ML model"),
     ("numpy", "numpy", "ML feature vectors"),
-    ("plotly", "plotly", "charts (gauge, donut, curves)"),
     ("reportlab", "reportlab", "PDF report export"),
     ("shap", "shap", "SHAP explainability"),
     ("xgboost", "xgboost", "optional alternate ML model"),
@@ -49,19 +48,15 @@ CORE_PACKAGES = [
 ]
 
 OPTIONAL_PACKAGES = [
-    ("pyzbar", "pyzbar", "QR code scanner tab (needs system lib libzbar0 too)"),
-    ("pytesseract", "pytesseract", "screenshot OCR scanner tab (needs system binary tesseract-ocr too)"),
+    ("pyzbar", "pyzbar", "QR code scanner (needs system lib libzbar0 too)"),
+    ("pytesseract", "pytesseract", "screenshot OCR scanner (needs system binary tesseract-ocr too)"),
     ("qrcode", "qrcode", "only used by tests/demos, not the app itself at runtime"),
     ("whois", "python-whois", "domain age check (also needs network access to WHOIS servers, port 43)"),
-    ("telegram", "python-telegram-bot", "the Telegram bot (telegram_bot.py) - not needed for the main dashboard"),
+    ("telegram", "python-telegram-bot", "the Telegram bot (telegram_bot.py)"),
 ]
 
 SYSTEM_BINARIES = [
     ("tesseract", "sudo apt install tesseract-ocr", "screenshot OCR scanner tab"),
-]
-
-SYSTEM_LIBS_HINT = [
-    ("libzbar0 (for pyzbar/QR scanning)", "sudo apt install libzbar0"),
 ]
 
 
@@ -87,7 +82,7 @@ def check_packages(packages, label, required):
             if required:
                 fail(f"{pip_name} - MISSING. Needed for: {purpose}\n         Fix: pip install {pip_name}\n         Error was: {e}")
             else:
-                warn(f"{pip_name} - not installed. That tab/feature will be disabled gracefully. Needed for: {purpose}\n         Fix: pip install {pip_name}")
+                warn(f"{pip_name} - not installed. Needed for: {purpose}\n         Fix: pip install {pip_name}")
     print()
     return missing
 
@@ -110,20 +105,19 @@ def check_model():
         size_kb = os.path.getsize(model_path) / 1024
         ok(f"models/rf_model.joblib found ({size_kb:.0f} KB)")
     else:
-        fail("models/rf_model.joblib NOT FOUND. The dashboard will load but AI risk scoring will error.\n"
+        fail("models/rf_model.joblib NOT FOUND. The app will load but AI risk scoring will error.\n"
              "         Fix: python models/train_model.py")
     print()
 
 
-def check_port(port=8501):
+def check_port(port=8000):
     print(f"{BOLD}Port {port} availability{RESET}")
-    import socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = s.connect_ex(("127.0.0.1", port))
     s.close()
     if result == 0:
-        warn(f"Something is already listening on port {port}. `streamlit run app.py` will fail or pick a different port.\n"
-             f"         Fix: lsof -i :{port}   then   kill -9 <PID>")
+        warn(f"Something is already listening on port {port}.\n"
+             f"         Fix: stop the existing process or use --port <number>")
     else:
         ok(f"Port {port} is free")
     print()
@@ -138,9 +132,9 @@ def check_database():
             conn = sqlite3.connect(db_path)
             conn.execute("SELECT 1")
             conn.close()
-            ok(f"oneclick.db exists and is readable")
+            ok("oneclick.db exists and is readable")
         except Exception as e:
-            fail(f"oneclick.db exists but seems corrupt: {e}\n         Fix: rm oneclick.db (a fresh one will be created automatically)")
+            fail(f"oneclick.db exists but seems corrupt: {e}\n         Fix: rm oneclick.db")
     else:
         ok("oneclick.db doesn't exist yet - will be created automatically on first scan")
     print()
@@ -154,7 +148,7 @@ def main():
     check_packages(OPTIONAL_PACKAGES, "Optional packages (feature-specific)", required=False)
     check_system_binaries()
     check_model()
-    check_port()
+    check_port(8000)
     check_database()
 
     print(f"{BOLD}=== Summary ==={RESET}")
@@ -163,9 +157,8 @@ def main():
         print(f"\n  Fix everything at once:\n    {BOLD}pip install -r requirements.txt{RESET}\n")
         sys.exit(1)
     else:
-        ok("All required packages present. If Streamlit still exits immediately, run it in the "
-           "foreground (no '&', no nohup) and read the actual traceback:")
-        print(f"\n    {BOLD}streamlit run app.py{RESET}\n")
+        ok("All required packages present. To launch the server and Web UI:")
+        print(f"\n    {BOLD}uvicorn api:app --host 0.0.0.0 --port 8000{RESET}\n")
         sys.exit(0)
 
 

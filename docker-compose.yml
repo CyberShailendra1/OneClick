@@ -1,24 +1,16 @@
 version: "3.8"
 
 services:
-  oneclick-ui:
+  oneclick:
     build: .
-    ports:
-      - "8501:8501"
-    volumes:
-      - oneclick-data:/app/data
-    environment:
-      - PYTHONUNBUFFERED=1
-
-  oneclick-api:
-    build: .
-    command: uvicorn api:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     volumes:
       - oneclick-data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
+      - PORT=8000
+      - HOST=0.0.0.0
 
 volumes:
   oneclick-data:

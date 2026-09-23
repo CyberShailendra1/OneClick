@@ -1,3 +1,4 @@
+
 # 🛡️ OneClick APK Analyzer
 
 Multi-layer Android malware detector — known threats (VirusTotal signatures), unknown/zero-day threats (static + AI analysis), and optional runtime behavior analysis.
@@ -57,26 +58,26 @@ pip install -r requirements.txt
 # Train the Layer-3 model (creates models/rf_model.joblib)
 python models/train_model.py
 
-# Launch the dashboard
-streamlit run app.py
+# Launch the server (serves both REST API and React Web UI)
+uvicorn api:app --host 0.0.0.0 --port 8000
 ```
 
-Open the URL Streamlit prints (usually `http://localhost:8501`), paste your **free VirusTotal API key** in the sidebar, and upload an `.apk`. Skipping the key just skips Layer 1 — everything else still runs.
+Open `http://localhost:8000` in your browser. Configure your **free VirusTotal API key** via the `.env` file or directly in the UI.
 
-### If Streamlit starts then immediately closes
+### If the server fails to start
 
-This almost always means either a required dependency is missing, or the process was tied to a terminal/SSH session that closed. Run the doctor script first — it checks every dependency individually and tells you exactly what's missing instead of you having to decode a stack trace:
+Run the doctor script first — it checks every dependency individually and reports exactly what is missing:
 
 ```bash
 python3 doctor.py
 ```
 
-Then use the robust launcher instead of a bare `streamlit run`, which logs everything to `logs/` and auto-restarts on an unexpected crash (but won't loop forever on a genuine failure):
+Then use the robust launcher, which auto-restarts on crash and logs to `logs/`:
 
 ```bash
 ./start.sh                # foreground, auto-restart on crash, logs to logs/
 ./start.sh --no-restart   # foreground, exit immediately on crash (best for debugging)
-./start.sh --port 8600    # custom port
+./start.sh --port 8000    # custom port
 ```
 
 For a real deployment (survives SSH disconnects, restarts on reboot), use the included systemd service instead of a bash loop:
@@ -93,14 +94,21 @@ sudo journalctl -u oneclick -f     # live logs
 
 **Known real fix already applied:** earlier versions of this app imported `pyzbar` (QR scanner) and `pytesseract` (OCR scanner) at the top of `app.py`. If their system dependencies (`libzbar0`, `tesseract-ocr`) weren't installed, importing `app.py` raised an `ImportError` immediately — which is exactly the "starts then closes" symptom. This is now fixed: those imports are wrapped so a missing system dependency only disables that one tab (with a clear fix message in the UI and sidebar) instead of crashing the whole app. Run `python3 doctor.py` to check for exactly this.
 
-### FastAPI backend (optional, for integrations)
+### React + TypeScript Web UI & FastAPI Backend
+
+A modern, fast web dashboard built with **React, TypeScript, and Vite** that connects to the FastAPI backend with all primary security analysis features:
 
 ```bash
+# Start the FastAPI backend (serves both API and the built React UI at http://localhost:8000):
 uvicorn api:app --host 0.0.0.0 --port 8000
-# interactive docs at http://localhost:8000/docs
+
+# Optional: To run the frontend in Vite live development mode:
+cd frontend
+npm run dev    # opens on http://localhost:3000 with API proxy to port 8000
 ```
 
-Endpoints: `POST /scan`, `POST /scan/report` (PDF/JSON), `GET /history`, `GET /history/{sha256}`, `DELETE /history`.
+Interactive API docs are available at `http://localhost:8000/docs`.
+Endpoints: `POST /scan`, `POST /scan/report` (PDF/JSON), `GET /history`, `POST /scan-url`, `POST /investigate-url`, `POST /scan-message`, `POST /redact-message`, `POST /scam-lookup/phone`, `POST /scam-lookup/upi`, `POST /breach/password`.
 
 ### Batch CLI
 
@@ -160,7 +168,6 @@ Beyond the core APK/URL/OTP pipeline, OneClick includes several more targeted sa
 | **Domain age (WHOIS) check** | 📞 Scam Lookup (bottom) | Flags newly-registered domains — a strong independent phishing signal | ⚠️ Code correct, but WHOIS (port 43) was unreachable from the sandbox this was built in — verify on your own network |
 | **Breach checker** | 🕵️ Breach Checker | Password check via HIBP's free k-anonymity API (password never transmitted); email check via HIBP's paid API (bring your own key) | ⚠️ Written to HIBP's documented API contract but untestable here (network-restricted sandbox, no paid key available) |
 | **Browser extension** | `browser_extension/` | One-click "check this page" popup that calls the OneClick API | ✅ Tested end-to-end in a real Chromium instance (loaded, called the API over CORS, rendered a live verdict) |
-| **Android app (real-time OTP guard)** | `android_app_scaffold/` | Notification-listener service that redacts OTPs from incoming SMS/WhatsApp notifications on-device | ❌ **Not buildable/testable here** — no Android SDK/Gradle/device in this environment. Structurally complete, standard Android code; needs Android Studio + a real device before use. See its own README for platform constraints (Android won't let one app rewrite another's notification — this cancels + reposts instead). |
 | **Telegram bot** | `telegram_bot.py` | Forward a link, message, screenshot, or QR code straight to a Telegram bot; get an instant flag-only verdict via `/scan`, `/checknumber`, `/checkupi`, or just by sending text/photos | ✅ Core logic fully unit tested (11/11 tests, `tests/test_telegram_bot.py`), including mocked handler-wiring tests. Live polling against Telegram's servers untestable here (no network path to api.telegram.org in this sandbox) — get a token from @BotFather and test on your own machine. |
 
 ### Telegram bot setup
@@ -181,26 +188,30 @@ Then message your bot on Telegram: send it a link, forward it a suspicious SMS/W
 
 ```
 OneClick/
-├── app.py                     # Streamlit dashboard (Layer 4) — 4 tabs: scan, batch, history, dynamic
-├── api.py                     # FastAPI backend (REST API for the same pipeline)
+├── api.py                     # FastAPI backend (serves REST endpoints and React Web UI)
 ├── batch_scan.py              # CLI batch scanner
-├── requirements.txt
+├── requirements.txt           # Python dependencies
 ├── Dockerfile / docker-compose.yml
+├── .env / .env.example        # Environment variables & API keys
+├── frontend/                  # React + TypeScript Web Dashboard
+│   ├── src/                   # Components (SingleScan, BatchScan, History, Phishing, OTP, Scam)
+│   ├── dist/                  # Production static assets served by FastAPI
+│   └── package.json
 ├── modules/
-│   ├── pipeline.py            # Shared scan pipeline used by app.py, api.py, batch_scan.py
+│   ├── pipeline.py            # Shared scan pipeline used by api.py and batch_scan.py
 │   ├── hash_scanner.py        # Layer 1: SHA-256 + VirusTotal
 │   ├── static_analyzer.py     # Layer 2: Androguard extraction
 │   ├── advanced_static.py     # Layer 2b: IOCs, obfuscation, native libs, SDKs, exported components
 │   ├── ml_classifier.py       # Layer 3: featurization + RF/XGBoost scoring + rule-based explainability
 │   ├── shap_explainer.py      # Layer 3: SHAP-based per-prediction feature attribution
-│   ├── dynamic_analysis.py    # Layer 5: ADB + Frida runtime hooks (needs Android SDK — see above)
+│   ├── dynamic_analysis.py    # Layer 5: ADB + Frida runtime hooks (needs Android SDK)
 │   ├── database.py            # SQLite: scan history + VirusTotal result cache
 │   └── report_generator.py    # PDF/JSON report export
 ├── models/
 │   ├── train_model.py         # Trains RF or XGBoost, --csv flag for real datasets
 │   └── rf_model.joblib        # (generated after training)
 └── sample_data/
-    └── training_data.csv      # (generated) synthetic training set
+    └── training_data.csv      # synthetic training set
 ```
 
 ## Notes
