@@ -52,22 +52,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [activeTab]);
 
-  const tabs = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'shield', label: 'Smart Shield', icon: '🛡️' },
-    { id: 'single', label: 'APK Scanner', icon: '🔍' },
-    { id: 'batch', label: 'Batch Scan', icon: '📦' },
-    { id: 'history', label: 'History', icon: '🕓' },
-    { id: 'phishing', label: 'Phishing & URLs', icon: '🎣' },
-    { id: 'otp', label: 'OTP Guard', icon: '🔒' },
-    { id: 'scam', label: 'Scam & Breach', icon: '📞' },
-    { id: 'tools', label: 'Security Tools', icon: '🛠️' },
-    { id: 'dashboard', label: 'Dashboard', icon: '👤' },
-  ];
-
   return (
-    <header style={{ borderBottom: '1px solid var(--border)', background: 'rgba(16, 23, 38, 0.95)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50 }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+    <header style={{ borderBottom: '1px solid var(--border)', background: 'rgba(16, 23, 38, 0.95)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 50, width: '100%' }}>
+      <div style={{ width: '100%', margin: '0 auto', padding: '0 28px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px' }}>
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveTab('home')}>
@@ -92,33 +79,29 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Nav Tabs */}
-          <nav style={{ display: 'flex', gap: '6px' }}>
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  background: activeTab === tab.id ? 'var(--bg-card-alt)' : 'transparent',
-                  color: activeTab === tab.id ? 'var(--teal)' : 'var(--text-muted)',
-                  fontWeight: activeTab === tab.id ? 700 : 500,
-                  fontSize: '13.5px',
-                  cursor: 'pointer',
-                  borderBottom: activeTab === tab.id ? '2px solid var(--teal)' : '2px solid transparent',
-                  transition: 'all 0.2s',
-                }}
-              >
-                <span>{tab.icon}</span>
-                <span>{tab.label}</span>
-              </button>
-            ))}
-          </nav>
+          {/* Center / Home Quick Link */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={() => setActiveTab('home')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: '8px',
+                border: '1px solid var(--border)',
+                background: activeTab === 'home' ? 'var(--bg-card-alt)' : 'transparent',
+                color: activeTab === 'home' ? 'var(--teal)' : 'var(--text-muted)',
+                fontWeight: activeTab === 'home' ? 700 : 500,
+                fontSize: '13px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+            >
+              <span>🏠</span>
+              <span>Overview & Services</span>
+            </button>
+          </div>
 
           {/* Right Status & VT Key */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
