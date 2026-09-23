@@ -19,8 +19,10 @@ import {
   Cpu,
   Layers,
   Sparkles,
-  LifeBuoy
+  LifeBuoy,
+  Landmark,
 } from 'lucide-react';
+
 
 interface HomePageProps {
   onNavigate: (tabId: string) => void;
@@ -494,6 +496,336 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           ))}
         </div>
       </section>
+
+      {/* Official Government Cybercrime & Stolen Phone Portals */}
+      <section
+        style={{
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9))',
+          border: '1px solid rgba(59, 130, 246, 0.3)',
+          borderRadius: '20px',
+          padding: '38px',
+        }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', borderRadius: '999px', background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+            <Landmark size={14} />
+            <span>Official Government Portals & Services</span>
+          </div>
+          <h2 style={{ fontSize: '30px', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>
+            Government Portals for Cyber Fraud, Stolen Phones & Citizen Safety
+          </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px', maxWidth: '780px', margin: '8px auto 0 auto', lineHeight: 1.6 }}>
+            The Government of India (Ministry of Home Affairs, DoT, MeitY, and CERT-In) provides official web portals to report crimes, block stolen devices, and track mobile connections. Here is the complete verified directory and how to use each service:
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '22px' }}>
+          {/* Service 1: CEIR */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>
+                  LOST / STOLEN PHONE
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Dept of Telecom (DoT)</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                CEIR (Central Equipment Identity Register)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Official portal to remotely block, blacklist, and track lost or stolen mobile phones across all Indian telecom networks using IMEI.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>First, lodge a digital Police Missing Complaint / FIR.</li>
+                  <li>Get a duplicate SIM card from your telecom operator.</li>
+                  <li>Visit CEIR, enter your 15-digit IMEI number, invoice, and FIR copy.</li>
+                  <li>Once submitted, the phone is blacklisted nationwide and tracked immediately if a new SIM is inserted.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://www.ceir.gov.in"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#60a5fa' }}
+            >
+              <span>Visit ceir.gov.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 2: National Cyber Crime Portal */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(20, 184, 166, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(20, 184, 166, 0.15)', color: 'var(--teal)' }}>
+                  FINANCIAL FRAUD & CYBERCRIME
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>MHA - I4C</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                National Cyber Crime Reporting Portal (NCRP)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Central citizen portal to lodge official online complaints for financial fraud, unauthorized banking transactions, social media extortion, and identity theft.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>For financial fraud, call <b>1930</b> immediately or click "Report Financial Fraud".</li>
+                  <li>Register using your mobile number and state.</li>
+                  <li>Upload transaction screenshots, bank statements, and fraudster numbers/URLs.</li>
+                  <li>Receive a formal Acknowledgement Number to track police investigation status.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://cybercrime.gov.in"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--teal)' }}
+            >
+              <span>Visit cybercrime.gov.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 3: Sanchar Saathi - TAFCOP */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(245, 158, 11, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(245, 158, 11, 0.15)', color: 'var(--amber)' }}>
+                  UNAUTHORIZED SIM CARDS
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Sanchar Saathi (DoT)</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                TAFCOP (Telecom Analytics for Fraud Management)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Allows citizens to check how many active mobile connections have been issued under their Aadhaar or identity document, and report unknown numbers for disconnection.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>Open the TAFCOP portal on Sanchar Saathi.</li>
+                  <li>Enter your active mobile number and submit the received OTP.</li>
+                  <li>Review the full list of all mobile numbers issued under your identity.</li>
+                  <li>Select any unknown number and choose "Not My Number" to request immediate termination.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://tafcop.sancharsaathi.gov.in"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--amber)' }}
+            >
+              <span>Visit tafcop.sancharsaathi.gov.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 4: Chakshu */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc' }}>
+                  SUSPECTED FRAUD REPORTING
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>DoT Facility</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                Chakshu (Suspected Fraud Communication)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Citizen reporting facility for suspected fraudulent communication received through SMS, WhatsApp, or phone calls (e.g. KYC expiry, electricity power cut, digital arrest, lottery).
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>Visit Sanchar Saathi and select the Chakshu option.</li>
+                  <li>Select the category of scam (Bank KYC, Electricity bill, Lottery, Sextortion, Job).</li>
+                  <li>Upload a screenshot of the message/call log and the scammer's phone number.</li>
+                  <li>Authorities inspect and disconnect rogue numbers across all Indian telecom circles.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://sancharsaathi.gov.in/sfc"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#c084fc' }}
+            >
+              <span>Visit sancharsaathi.gov.in/sfc</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 5: CERT-In */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(99, 102, 241, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}>
+                  CYBER INCIDENT & VULNERABILITY
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>MeitY</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                CERT-In (Indian Computer Emergency Response Team)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                National nodal agency for responding to cybersecurity incidents, malware outbreaks, phishing domain takedowns, and security vulnerability disclosures in India.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>To report phishing URLs, ransomware, or malware, email <b>incident@cert-in.org.in</b>.</li>
+                  <li>Provide attack logs, headers, and sample malicious files.</li>
+                  <li>Check official security advisories for Android vulnerabilities, browser zero-days, and patches.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://www.cert-in.org.in"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: '#818cf8' }}
+            >
+              <span>Visit cert-in.org.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+
+          {/* Service 6: Cyber Swachhta Kendra */}
+          <div
+            className="card"
+            style={{
+              padding: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(34, 197, 94, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                <span style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 800, background: 'rgba(34, 197, 94, 0.15)', color: 'var(--green)' }}>
+                  FREE BOT REMOVAL & CLEANING
+                </span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>MeitY / CERT-In</span>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+                Cyber Swachhta Kendra (Botnet Cleaning Center)
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '14px' }}>
+                Provides free government-certified malware and botnet removal security tools to clean infected mobile devices, laptops, and desktop computers.
+              </p>
+
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--cyan)', marginBottom: '6px' }}>
+                  📌 How to Use:
+                </div>
+                <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                  <li>Visit the Cyber Swachhta Kendra security tools portal.</li>
+                  <li>Download free verified bot-removal tools for Windows and Android (e.g. M-Kavach 2).</li>
+                  <li>Scan your device to detect and remove covert remote-access spyware and trojans.</li>
+                </ol>
+              </div>
+            </div>
+
+            <a
+              href="https://www.csk.gov.in"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--green)' }}
+            >
+              <span>Visit csk.gov.in</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
+      </section>
+
 
       {/* Emergency Assistance Footer Banner */}
       <section
